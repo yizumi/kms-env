@@ -14,7 +14,7 @@ module KmsEnv
   ###
   def load
     matcher = /_KMS$/
-    kms = Aws::KMS::Client.new(region: 'us-east-1')
+    kms = Aws::KMS::Client.new(region: ENV['AWS_REGION'] || 'us-east-1')
 
     ENV.keys.each do |key|
       # skip keys not ending in _KMS
