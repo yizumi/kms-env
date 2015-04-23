@@ -28,7 +28,7 @@ module KmsEnv
   end
   
   def plaintext_key_for(key)
-    key.gsub(matcher, '')
+    key.gsub(kms_key_matcher, '')
   end
   
   def set_decrypted_env_for(key)
@@ -37,12 +37,12 @@ module KmsEnv
     ENV[plaintext_key_for(key)] = kms_decrypt_text(ciphertext_blob_for(ENV[key])).first.plaintext    
   end
   
-  def matcher
+  def kms_key_matcher
     /_KMS$/
   end
   
   def load
-    ENV.keys.select {|k| k =~ matcher}.each do |key|
+    ENV.keys.select {|k| k =~ kms_key_matcher}.each do |key|
       set_decrypted_env_for(key)
     end
   end

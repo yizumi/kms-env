@@ -1,6 +1,5 @@
 require 'spec_helper'
 require 'aws-sdk'
-require 'pry'
 
 describe KmsEnv do
   describe '#load' do
