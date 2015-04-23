@@ -1,6 +1,8 @@
 # kms-env
 Decrypt environment variables encrypted with Amazon's KMS service.
 
+[![Build Status](http://img.shields.io/travis/Fullscreen/kms-env/master.svg)](https://travis-ci.org/Fullscreen/kms-env)
+
 # Usage
 This gem decrypts environment variables with keys that end in `_KMS` and
 assigns them to a key of the same name with the KMS suffix removed.
