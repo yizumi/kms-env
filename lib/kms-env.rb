@@ -26,6 +26,7 @@ module KmsEnv
 
       ciphertext_blob = Base64.decode64(ENV[key])
       begin
+        # binding.pry
         resp = kms.decrypt(ciphertext_blob: ciphertext_blob)
         ENV[plaintext_key] = resp.first.plaintext
       rescue Exception => e
