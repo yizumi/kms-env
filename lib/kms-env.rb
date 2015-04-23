@@ -12,25 +12,38 @@ module KmsEnv
   ###
   # Load decrypted environment variables
   ###
+
+  def kms
+    @kms ||= Aws::KMS::Client.new(region: ENV['AWS_REGION'] || 'us-east-1')
+  end
+
+  def ciphertext_blob_for(text)
+    Base64.decode64(text)
+  end
+
+  def kms_decrypt_blob(blob)
+    kms.decrypt(ciphertext_blob: blob)
+  rescue Exception => e
+    self.logger.error("Failed to decrypt #{key} with error #{e.class}")
+  end
+
+  def plaintext_key_for(key)
+    key.gsub(kms_key_matcher, '')
+  end
+
+  def set_decrypted_env_for(key)
+    # skip values that have already been decrypted
+    return if ENV[plaintext_key_for(key)]
+    ENV[plaintext_key_for(key)] = kms_decrypt_blob(ciphertext_blob_for(ENV[key])).first.plaintext
+  end
+
+  def kms_key_matcher
+    /_KMS$/
+  end
+
   def load
-    matcher = /_KMS$/
-    kms = Aws::KMS::Client.new(region: ENV['AWS_REGION'] || 'us-east-1')
-
-    ENV.keys.each do |key|
-      # skip keys not ending in _KMS
-      next unless key =~ matcher
-
-      # skip values that have already been decrypted
-      plaintext_key = key.gsub(matcher, '')
-      next if ENV[plaintext_key]
-
-      ciphertext_blob = Base64.decode64(ENV[key])
-      begin
-        resp = kms.decrypt(ciphertext_blob: ciphertext_blob)
-        ENV[plaintext_key] = resp.first.plaintext
-      rescue Exception => e
-        self.logger.error("Failed to decrypt #{key} with error #{e.class}")
-      end
+    ENV.keys.select {|k| k =~ kms_key_matcher}.each do |key|
+      set_decrypted_env_for(key)
     end
   end
 
