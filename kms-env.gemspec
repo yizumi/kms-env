@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.license       = 'MIT'
 
   spec.require_paths = ['lib']
-  spec.files         = ['lib/kms-env.rb']
+  spec.files         = ['lib/kms-env.rb', 'lib/kms-env/railtie.rb']
 
   spec.add_dependency 'aws-sdk', '~> 2.0'
 end

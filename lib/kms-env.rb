@@ -35,3 +35,5 @@ module KmsEnv
   end
 
 end
+
+require 'kms-env/railtie' if defined?(Rails)
