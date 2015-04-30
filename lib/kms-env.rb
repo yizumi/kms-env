@@ -24,7 +24,7 @@ module KmsEnv
   def kms_decrypt_blob(blob)
     kms.decrypt(ciphertext_blob: blob)
   rescue Exception => e
-    self.logger.error("Failed to decrypt #{key} with error #{e.class}")
+    self.logger.error("Failed to decrypt env with error #{e.class}")
     if defined?(Honeybadger)
       Honeybadger.notify(e)
     end
