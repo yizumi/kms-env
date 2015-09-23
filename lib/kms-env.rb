@@ -39,7 +39,8 @@ module KmsEnv
   end
 
   def set_decrypted_env_for(key)
-    ENV[plaintext_key_for(key)] = kms_decrypt_blob(ciphertext_blob_for(ENV[key])).plaintext
+    data = kms_decrypt_blob(ciphertext_blob_for(ENV[key]))
+    ENV[plaintext_key_for(key)] = data.plaintext if data
   end
 
   def kms_key_matcher
