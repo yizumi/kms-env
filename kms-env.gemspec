@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.description   = 'Decrypt environment variables encrypted with Amazon\'s KMS service'
   spec.author        = 'Drew Stokes'
   spec.email         = 'drew.stokes@fullscreen.com'
-  spec.homepage      = 'https://github.com/Fullsceen/kms-env'
+  spec.homepage      = 'https://github.com/Fullscreen/kms-env'
   spec.license       = 'MIT'
 
   spec.require_paths = ['lib']
