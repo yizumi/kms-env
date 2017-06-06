@@ -44,7 +44,7 @@ module KmsEnv
   end
 
   def kms_key_matcher
-    /_KMS$/
+    /_(KMS|ENC)$/
   end
 
   def load
